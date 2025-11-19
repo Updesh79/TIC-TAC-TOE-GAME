@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px black;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 90px);
+            grid-gap: 10px;
+        }
+
+        button {
+            width: 90px;
+            height: 90px;
+            font-size: 40px;
+            font-weight: bold;
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            backdrop-filter: blur(4px);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        button:active {
+            transform: scale(0.9);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            text-shadow: 2px 2px 10px black;
+        }
+
+        #resetBtn {
+            margin-top: 15px;
+            padding: 10px 25px;
+            font-size: 22px;
+            border: none;
+            border-radius: 10px;
+            background: #00e676;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        #resetBtn:hover {
+            transform: scale(1.1);
+            background: #00c853;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Tic Tac Toe</h2>
+
+    <div class="board">
+        <button id="0" onclick="clickCell(0)"></button>
+        <button id="1" onclick="clickCell(1)"></button>
+        <button id="2" onclick="clickCell(2)"></button>
+        <button id="3" onclick="clickCell(3)"></button>
+        <button id="4" onclick="clickCell(4)"></button>
+        <button id="5" onclick="clickCell(5)"></button>
+        <button id="6" onclick="clickCell(6)"></button>
+        <button id="7" onclick="clickCell(7)"></button>
+        <button id="8" onclick="clickCell(8)"></button>
+    </div>
+
+    <p id="result"></p>
+
+    <button id="resetBtn" onclick="resetGame()">Reset Game</button>
+
+    <script>
+        var turn = "X";
+        var cells = ["", "", "", "", "", "", "", "", ""];
+        var gameOver = false;
+
+        function clickCell(index) {
+            if (cells[index] == "" && !gameOver) {
+                cells[index] = turn;
+                document.getElementById(index).innerHTML = turn;
+
+                if (checkWin()) {
+                    document.getElementById("result").innerHTML = turn + " wins!";
+                    gameOver = true;
+                } 
+                else if (!cells.includes("")) {
+                    document.getElementById("result").innerHTML = "Draw!";
+                    gameOver = true;
+                }
+                else {
+                    turn = turn == "X" ? "O" : "X";
+                }
+            }
+        }
+
+        function checkWin() {
+            var winConditions = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            for (var i = 0; i < winConditions.length; i++) {
+                if (
+                    cells[winConditions[i][0]] == turn &&
+                    cells[winConditions[i][1]] == turn &&
+                    cells[winConditions[i][2]] == turn
+                ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function resetGame() {
+            turn = "X";
+            cells = ["", "", "", "", "", "", "", "", ""];
+            gameOver = false;
+
+            for (var i = 0; i < 9; i++) {
+                document.getElementById(i).innerHTML = "";
+            }
+
+            document.getElementById("result").innerHTML = "";
+        }
+    </script>
+
+</body>
+</html>
